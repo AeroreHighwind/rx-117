@@ -1,9 +1,7 @@
 import express from "express";
 import { config } from "dotenv";
+import authModule from "./src/modules/auth/auth.module.js";
 
-//routes modules
-import authRouter from "./src/routes/auth.routes.js";
-//Load env
 config();
 
 const app = express();
@@ -13,4 +11,4 @@ app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
 
-app.use("/auth", authRouter);
+app.use("/auth", authModule.AuthController.router);

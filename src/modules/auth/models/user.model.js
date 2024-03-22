@@ -6,6 +6,9 @@ export class UserModel {
   id;
 
   @Column()
+  email;
+
+  @Column()
   username;
 
   @Column()
