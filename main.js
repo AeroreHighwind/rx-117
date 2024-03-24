@@ -1,8 +1,7 @@
 import express from "express";
 import { config } from "dotenv";
-import authModule from "./src/modules/auth/auth.module.js";
+import AuthModule from "./src/modules/auth/auth.module.js";
 import authDataSource from "./data-source.js";
-import "reflect-metadata";
 
 config();
 
@@ -20,4 +19,4 @@ app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
 
-app.use("/auth", authModule.AuthController.router);
+app.use("/auth", AuthModule.authRouter);
