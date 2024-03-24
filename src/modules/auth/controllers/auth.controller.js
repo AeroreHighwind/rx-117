@@ -5,7 +5,6 @@ export class AuthController {
 
   static login(req, res) {
     res.send("This is the login route");
-    console.log("LOGIN REQUEST");
   }
 
   static signUp(req, res) {

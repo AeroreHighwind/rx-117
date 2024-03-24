@@ -1,16 +1,36 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { EntitySchema } from "typeorm";
 
-@Entity()
-export class UserModel {
-  @PrimaryGeneratedColumn()
-  id;
+const UserEntity = new EntitySchema({
+  id: {
+    primary: true,
+    type: "int",
+    generated: true,
+  },
+  email: {
+    type: "varchar",
+  },
+  username: {
+    type: "varchar",
+  },
+  password: {
+    type: "text",
+  },
+});
 
-  @Column()
-  email;
+export default UserEntity;
+// import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
-  @Column()
-  username;
+// @Entity()
+// export class UserModel {
+//   @PrimaryGeneratedColumn()
+//   id;
 
-  @Column()
-  password;
-}
+//   @Column()
+//   email;
+
+//   @Column()
+//   username;
+
+//   @Column()
+//   password;
+// }

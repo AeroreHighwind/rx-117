@@ -2,6 +2,8 @@ import express from "express";
 import { config } from "dotenv";
 import authModule from "./src/modules/auth/auth.module.js";
 import authDataSource from "./data-source.js";
+import "reflect-metadata";
+
 config();
 
 authDataSource
