@@ -19,4 +19,4 @@ app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
 
-app.use("/auth", AuthModule.authRouter);
+app.use("/auth", AuthModule.AuthRouter);

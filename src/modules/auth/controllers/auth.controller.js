@@ -6,6 +6,10 @@ export class AuthController {
   static signUp(req, res) {
     res.send("This is the sign-up route");
   }
+
+  static recovery(req, res) {
+    res.send("This is the password recovery");
+  }
 }
 
 export default AuthController;
