@@ -1,6 +1,6 @@
 import express from "express";
 import { config } from "dotenv";
-import AuthModule from "./src/modules/auth/auth.module.js";
+import { AuthModule } from "./src/modules/auth/auth.module.js";
 import authDataSource from "./data-source.js";
 
 config();

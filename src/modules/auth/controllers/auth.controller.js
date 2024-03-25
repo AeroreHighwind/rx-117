@@ -1,6 +1,6 @@
 export class AuthController {
   static login(req, res) {
-    res.send("This is the login route");
+    res.send("This is the login route" + JSON.stringify(req.body));
   }
 
   static signUp(req, res) {
@@ -12,4 +12,7 @@ export class AuthController {
   }
 }
 
-export default AuthController;
+// export function loginValidationRules = () => [
+//   body('email').isEmail().withMessage('Invalid email address'),
+//   body('password').notEmpty().withMessage('Password is required')
+// ];

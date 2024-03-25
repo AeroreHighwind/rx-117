@@ -1,12 +1,11 @@
 import express from "express";
 import { AuthController } from "../controllers/auth.controller.js";
-import ExpressLogger from "../../shared/services/endpoint.logger.service.js";
-const AuthRouter = express.Router();
+import { ExpressLogger } from "../../shared/services/logger.service.js";
 
-AuthRouter.get("/login", AuthController.login);
+export const AuthRouter = express.Router();
+
+AuthRouter.post("/login", AuthController.login);
 AuthRouter.post("/sign-up", AuthController.signUp);
-AuthRouter.post("/recovery", AuthController.recovery);
 AuthRouter.post("/recovery", AuthController.recovery);
 
 ExpressLogger.logRouterEndpoints(AuthRouter);
-export default AuthRouter;

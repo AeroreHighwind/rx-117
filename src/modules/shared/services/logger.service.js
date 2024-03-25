@@ -1,4 +1,4 @@
-class ExpressLogger {
+export class ExpressLogger {
   static log = {
     green: (text) => console.log("\x1b[32m" + text + reset()),
     red: (text) => console.log("\x1b[31m" + text + reset()),
@@ -9,7 +9,7 @@ class ExpressLogger {
   static logRouterEndpoints(router) {
     router.stack.forEach((stack) =>
       ExpressLogger.log.green(
-        `[EXPRESS LOG]: Mapped Route: ${stack.route.path} ${Object.keys(
+        `[EXPRESS LOG] Mapped Route: ${stack.route.path} ${Object.keys(
           stack.route.methods
         ).map((method) => method.toUpperCase())}`
       )
@@ -20,5 +20,3 @@ class ExpressLogger {
 function reset() {
   return "\x1b[0m";
 }
-
-export default ExpressLogger;

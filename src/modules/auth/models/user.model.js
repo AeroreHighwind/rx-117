@@ -1,6 +1,6 @@
 import { EntitySchema } from "typeorm";
 
-const UserEntity = new EntitySchema({
+export const UserEntity = new EntitySchema({
   id: {
     primary: true,
     type: "int",
@@ -10,27 +10,9 @@ const UserEntity = new EntitySchema({
     type: "varchar",
   },
   username: {
-    type: "varchar",
+    type: "varchar(15)",
   },
   password: {
-    type: "text",
+    type: "varchar(15)",
   },
 });
-
-export default UserEntity;
-// import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
-
-// @Entity()
-// export class UserModel {
-//   @PrimaryGeneratedColumn()
-//   id;
-
-//   @Column()
-//   email;
-
-//   @Column()
-//   username;
-
-//   @Column()
-//   password;
-// }
