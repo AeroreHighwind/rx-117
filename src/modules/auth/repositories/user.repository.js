@@ -1,4 +1,4 @@
-import { BaseRepository } from "../../shared/services/base.repository.js";
+import { BaseRepository } from "../../shared/classes/base.repository.js";
 
 export class UserRepository extends BaseRepository {
   constructor({ UserModel }) {

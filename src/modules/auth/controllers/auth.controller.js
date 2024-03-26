@@ -1,21 +1,14 @@
 import { body, validationResult } from "express-validator";
 
 export class AuthController {
-  static loginValidationRules() {
-    return [
-      body("username").notEmpty().withMessage("Username is required"),
-      // Add more validation rules as needed
-    ];
-  }
-
   static login(req, res) {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+    body("username");
+    const result = validationResult(req);
+    if (result.isEmpty()) {
+      return res.send(`Hello, ${req.body.person}!`);
     }
 
-    // If validation passes, proceed with the logic
-    return res.send(`Hello, ${req.body.username}!`);
+    res.send({ errors: result.array() });
   }
 
   static signUp(req, res) {
@@ -26,3 +19,8 @@ export class AuthController {
     res.send("This is the password recovery");
   }
 }
+
+// export function loginValidationRules = () => [
+//   body('email').isEmail().withMessage('Invalid email address'),
+//   body('password').notEmpty().withMessage('Password is required')
+// ];
