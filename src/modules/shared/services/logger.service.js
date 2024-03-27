@@ -9,9 +9,13 @@ export class ExpressLogger {
   static logRouterEndpoints(router) {
     router.stack.forEach((stack) =>
       ExpressLogger.log.green(
-        `[EXPRESS LOG] Mapped Route: ${stack.route.path} ${Object.keys(
-          stack.route.methods
-        ).map((method) => method.toUpperCase())}`
+        `[EXPRESS LOG] [${
+          process.env.SYSTEMD_EXEC_PID
+        }] - ${new Date().toLocaleString("es-AR")} - Mapped Route: ${
+          stack.route.path
+        } { ${Object.keys(stack.route.methods).map((method) =>
+          method.toUpperCase()
+        )} }`
       )
     );
   }
