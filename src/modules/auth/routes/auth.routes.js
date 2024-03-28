@@ -1,5 +1,5 @@
 import express from "express";
-import { AuthController } from "../controllers/auth.controller.js";
+import { AuthController } from "../auth.module.js";
 import { ExpressLogger } from "../../shared/services/logger.service.js";
 
 export const AuthRouter = express.Router();

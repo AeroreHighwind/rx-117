@@ -1,9 +1,3 @@
-import { loggerMiddleware } from "./middlewares/logger.middleware.js";
-import { ExpressLogger } from "./services/logger.service.js";
-import { BaseRepository } from "./services/base.repository.js";
-
-export const SharedModule = {
-  BaseRepository,
-  ExpressLogger,
-  loggerMiddleware,
-};
+export { BaseRepository } from "./classes/base.repository.js";
+export { ExpressLogger } from "./services/logger.service.js";
+export { loggerMiddleware } from "./middlewares/logger.middleware.js";
