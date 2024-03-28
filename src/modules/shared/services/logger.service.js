@@ -1,9 +1,10 @@
 export class ExpressLogger {
   static log = {
-    green: (text) => console.log("\x1b[32m" + getPrefix() + text + reset()),
     red: (text) => console.log("\x1b[31m" + getPrefix() + text + reset()),
-    blue: (text) => console.log("\x1b[34m" + getPrefix() + text + reset()),
+    green: (text) => console.log("\x1b[32m" + getPrefix() + text + reset()),
     yellow: (text) => console.log("\x1b[33m" + getPrefix() + text + reset()),
+    blue: (text) => console.log("\x1b[34m" + getPrefix() + text + reset()),
+    cyan: (text) => console.log("\x1b[36m" + getPrefix() + text + reset()),
   };
 
   static logRouterEndpoints(router) {
@@ -22,7 +23,7 @@ function reset() {
 }
 
 function getPrefix() {
-  return `[EXPRESS] [${
-    process.env.SYSTEMD_EXEC_PID
-  }] - ${new Date().toLocaleString("es-AR")} - LOG `;
+  return `[EXPRESS] [${process.pid}] - ${new Date().toLocaleString(
+    "es-AR"
+  )} - LOG `;
 }

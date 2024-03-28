@@ -9,7 +9,7 @@ config();
 authDataSource
   .initialize()
   .then(() => {
-    ExpressLogger.log.yellow(`AuthDB initialized`);
+    ExpressLogger.log.cyan(`AuthDB initialized`);
   })
   .catch((error) => console.log("Error>>", error));
 
