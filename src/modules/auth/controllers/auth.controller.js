@@ -1,26 +1,35 @@
+import { AuthService } from "../services/auth.service.js";
+import { ExpressLogger } from "../../shared/shared.module.js";
 import { body, validationResult } from "express-validator";
 
 export class AuthController {
-  static login(req, res) {
-    body("username");
-    const result = validationResult(req);
+  constructor() {}
+  authService = new AuthService();
+  async login(req, res, next) {
+    body("username", "no username in body", "ERROR");
+    // console.log("BODY VALIDATOR", body("username").error);
+    const result = validationResult(body);
+    // console.log("VALIDATIONRESULT", result);
     if (result.isEmpty()) {
-      return res.send(`Hello, ${req.body.person}!`);
+      return res.send(`Hello, ${req.body.username}!`);
     }
 
     res.send({ errors: result.array() });
   }
 
-  static signUp(req, res) {
-    res.send("This is the sign-up route");
+  async signUp(req, res) {
+    try {
+      const userDto = { ...req.body };
+      console.log("CONTROLLER DTO", userDto);
+      authService.signUp(userDto);
+      res.status(201).end();
+    } catch (error) {
+      ExpressLogger.log.red(error);
+      res.status(500).end();
+    }
   }
 
-  static recovery(req, res) {
+  static async recovery(req, res) {
     res.send("This is the password recovery");
   }
 }
-
-// export function loginValidationRules = () => [
-//   body('email').isEmail().withMessage('Invalid email address'),
-//   body('password').notEmpty().withMessage('Password is required')
-// ];
