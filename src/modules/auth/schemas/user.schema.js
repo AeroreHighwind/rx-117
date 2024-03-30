@@ -13,12 +13,15 @@ export const UserEntity = new EntitySchema({
     },
     email: {
       type: "varchar",
+      length: 15,
     },
     username: {
-      type: "varchar(15)",
+      type: "varchar",
+      length: 15,
     },
     password: {
-      type: "varchar(15)",
+      type: "varchar",
+      length: 15,
     },
   },
 });

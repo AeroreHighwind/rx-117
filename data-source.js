@@ -1,5 +1,5 @@
 import { DataSource } from "typeorm";
-// import { UserEntity } from "./src/modules/auth/models/user.model.js";
+import { UserEntity } from "./src/modules/auth/schemas/user.schema.js";
 
 export const authDataSource = new DataSource({
   type: "mysql",
@@ -9,12 +9,12 @@ export const authDataSource = new DataSource({
   database: process.env.DB_NAME,
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
-  entities: [],
+  entities: [UserEntity],
   logging: true,
   synchronize: true,
   driver: {},
 });
-// console.log("ENTITIES LOGGED", JSON.stringify(authDataSource.entities));
+console.log("ENTITIES LOGGED", JSON.stringify(authDataSource.entities));
 // const testRepository = authDataSource.getRepository(UserEntity);
 // const newUser = UserEntity;
 // await testRepository.save({
