@@ -3,25 +3,30 @@ import { ExpressLogger } from "../../shared/shared.module.js";
 import { body, validationResult } from "express-validator";
 
 export class AuthController {
-  constructor() {}
-  authService = new AuthService();
-  async login(req, res, next) {
-    body("username", "no username in body", "ERROR");
-    // console.log("BODY VALIDATOR", body("username").error);
-    const result = validationResult(body);
-    // console.log("VALIDATIONRESULT", result);
-    if (result.isEmpty()) {
-      return res.send(`Hello, ${req.body.username}!`);
-    }
+  constructor() {
+    this.authService = new AuthService();
+    ExpressLogger.log.blue("AuthController constructed");
+  }
 
-    res.send({ errors: result.array() });
+  async login(req, res, next) {
+    try {
+      body("username", "no username in body", "ERROR");
+      const result = validationResult(body);
+      if (result.isEmpty()) {
+        return res.send(`Hello, ${req.body.username}!`);
+      }
+
+      res.send({ errors: result.array() });
+    } catch (error) {
+      res.status(500).end();
+    }
   }
 
   async signUp(req, res) {
     try {
       const userDto = { ...req.body };
       console.log("CONTROLLER DTO", userDto);
-      authService.signUp(userDto);
+      this.authService.signUp(userDto);
       res.status(201).end();
     } catch (error) {
       ExpressLogger.log.red(error);

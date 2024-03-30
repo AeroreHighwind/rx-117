@@ -1,9 +1,11 @@
-import { Repository } from "typeorm";
-import { UserEntity } from "../models/user.model.js";
+import { authDataSource } from "../../../../data-source.js";
+import { ExpressLogger } from "../../shared/shared.module.js";
+import { UserEntity } from "../schemas/user.schema.js";
 
 export class UserRepository {
   constructor() {
-    this.repository = new Repository(UserEntity);
+    this.repository = authDataSource.getRepository(UserEntity);
+    ExpressLogger.log.blue("UserRepository constructed");
   }
 
   async findAll() {
@@ -13,6 +15,7 @@ export class UserRepository {
     return await this.repository.findOne(criteria);
   }
   async create(dto) {
+    console.log(this.repository);
     return await this.repository.save(dto);
   }
 }

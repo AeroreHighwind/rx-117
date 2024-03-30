@@ -15,5 +15,6 @@ export class AuthService {
 
   async signUp(userDto) {
     const newUser = await this.repository.create(userDto);
+    return newUser;
   }
 }

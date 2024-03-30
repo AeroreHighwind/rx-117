@@ -2,7 +2,7 @@ import express from "express";
 import { config } from "dotenv";
 import { AuthRouter } from "./src/modules/auth/auth.module.js";
 import { ExpressLogger } from "./src/modules/shared/services/logger.service.js";
-import authDataSource from "./data-source.js";
+import { authDataSource } from "./data-source.js";
 
 config();
 
