@@ -9,7 +9,8 @@ export const authDataSource = new DataSource({
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   entities: [UserSchema],
-  logging: true,
   synchronize: true,
   driver: {},
 });
+console.log(authDataSource.entities);
+// authDataSource.entities = [UserSchema];

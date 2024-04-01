@@ -1,6 +1,6 @@
+import { UserSchema } from "../entity/user.entity.js";
 import { authDataSource } from "../../../../data-source.js";
 import { ExpressLogger } from "../../shared/shared.module.js";
-import { UserSchema } from "../entity/user.entity.js";
 
 export class UserRepository {
   constructor() {

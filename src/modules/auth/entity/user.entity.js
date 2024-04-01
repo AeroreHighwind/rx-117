@@ -3,7 +3,7 @@ import { UserModel } from "../models/user.model.js";
 import "reflect-metadata";
 
 export const UserSchema = new EntitySchema({
-  name: "User",
+  name: "UserModel",
   tableName: "users",
   target: UserModel,
   columns: {
@@ -12,11 +12,11 @@ export const UserSchema = new EntitySchema({
       type: "int",
       generated: "uuid",
     },
-    email: {
+    username: {
       type: "varchar",
       length: 15,
     },
-    username: {
+    email: {
       type: "varchar",
       length: 15,
     },
