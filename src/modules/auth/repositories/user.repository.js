@@ -11,10 +11,18 @@ export class UserRepository {
   async findAll() {
     return await this.repository.findAll();
   }
-  async findOne(criteria) {
-    return await this.repository.findOne(criteria);
+  async findOne(id) {
+    return await this.repository.findOne(id);
   }
-  async create(dto) {
+  async findOneByUsername(name) {
+    return await this.repository.findOneBy({
+      username: name,
+    });
+  }
+  async save(dto) {
     return await this.repository.save(dto);
+  }
+  async delete(id) {
+    return await this.repository.delete(id);
   }
 }

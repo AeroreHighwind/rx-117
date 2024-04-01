@@ -1,20 +1,29 @@
 import { UserRepository } from "../repositories/user.repository.js";
-import { ExpressLogger } from "../../shared/shared.module.js";
+import { ExceptionHandler, ExpressLogger } from "../../shared/shared.module.js";
 
 export class AuthService {
   constructor() {
     this.repository = new UserRepository();
-    ExpressLogger.log.blue("AUTH SERVICE CONSTRUCTED");
+    this.handler = ExceptionHandler;
+    ExpressLogger.log.blue("AuthService constructed");
   }
 
-  async login(username) {
-    const dbUser = await this.repository.findOne(username);
-    const { password, ...rest } = dbUser;
-    return { ...rest };
+  async login(dto) {
+    try {
+      const dbUser = await this.repository.findOneByUsername(dto.username);
+      const { password, ...rest } = dbUser;
+      return { ...rest };
+    } catch (error) {
+      this.handler.handle(error);
+    }
   }
 
   async signUp(userDto) {
-    const newUser = await this.repository.create(userDto);
-    return newUser;
+    try {
+      const newUser = await this.repository.save(userDto);
+      return newUser;
+    } catch (error) {
+      this.handler.handle(error);
+    }
   }
 }

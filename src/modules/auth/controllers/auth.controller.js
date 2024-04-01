@@ -13,6 +13,8 @@ export class AuthController {
       body("username", "no username in body", "ERROR");
       const result = validationResult(body);
       if (result.isEmpty()) {
+        const dto = { ...req.body };
+        this.authService.login(dto);
         return res.send(`Hello, ${req.body.username}!`);
       }
 
