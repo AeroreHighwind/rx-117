@@ -1,11 +1,10 @@
 import { EntitySchema } from "typeorm";
-import { UserModel } from "../models/user.model.js";
-import "reflect-metadata";
+import { User } from "../models/user.model.js";
 
 export const UserSchema = new EntitySchema({
-  name: "UserModel",
+  name: "User",
   tableName: "users",
-  target: UserModel,
+  target: User,
   columns: {
     id: {
       primary: true,
@@ -18,6 +17,7 @@ export const UserSchema = new EntitySchema({
     },
     email: {
       type: "varchar",
+      unique: true,
       length: 15,
     },
     password: {

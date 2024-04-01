@@ -12,5 +12,3 @@ export const authDataSource = new DataSource({
   synchronize: true,
   driver: {},
 });
-console.log(authDataSource.entities);
-// authDataSource.entities = [UserSchema];

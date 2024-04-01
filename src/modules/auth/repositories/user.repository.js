@@ -15,7 +15,6 @@ export class UserRepository {
     return await this.repository.findOne(criteria);
   }
   async create(dto) {
-    console.log(this.repository);
     return await this.repository.save(dto);
   }
 }

@@ -12,13 +12,7 @@ config();
 authDataSource
   .initialize()
   .then((db) => {
-    ExpressLogger.log.cyan(`AuthDB initialized`);
-    const repository = db.getRepository(UserSchema);
-    repository.save({
-      username: "frost",
-      password: "test123",
-      email: "frost@test.com",
-    });
+    ExpressLogger.log.cyan(`DB initialized: ${db.isInitialized}`);
   })
   .catch((error) => console.log("Error:", error));
 
@@ -27,14 +21,6 @@ const port = process.env.PORT;
 
 app.use(express.json());
 app.use("/auth", AuthRouter);
-
-// const testRepository = authDataSource.getRepository(UserSchema);
-
-// await testRepository.save({
-//   username: "frost",
-//   password: "test123",
-//   email: "frost@tst.com",
-// });
 
 app.listen(port, () => {
   ExpressLogger.log.yellow(`Server running on port ${port}`);
