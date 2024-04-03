@@ -17,7 +17,11 @@ export class ValidatorService {
   static validate(req, res) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      throw new Error(JSON.stringify(errors.array().map((err) => err.msg)));
+      const cleanedErrorMessage = errors
+        .array()
+        .map((err) => err.msg)
+        .join(", ");
+      throw new Error(cleanedErrorMessage);
     }
   }
 }

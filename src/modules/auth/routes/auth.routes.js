@@ -14,13 +14,8 @@ AuthRouter.post(
       ValidatorService.validate(req, res);
       await authController.login(req, res, next);
     } catch (error) {
-      const errorMessage = JSON.parse(error.message).join(", ");
-
-      // Remove quotes and backslashes
-      const cleanedErrorMessage = errorMessage.replace(/["\\]/g, "");
-
       ExpressLogger.log.red(error);
-      res.status(400).json({ message: cleanedErrorMessage });
+      res.status(400).json({ message: error.message });
     }
   }
 );
