@@ -1,13 +1,13 @@
 import express from "express";
-import { config } from "dotenv";
+import helmet from "helmet";
 import { AuthRouter } from "./src/modules/auth/auth.module.js";
-import { UserSchema } from "./src/modules/auth/entity/user.entity.js";
 
 import { ExpressLogger } from "./src/modules/shared/services/logger.service.js";
 import { authDataSource } from "./data-source.js";
-import "reflect-metadata";
 
-config();
+//init
+const app = express();
+const port = process.env.PORT;
 
 authDataSource
   .initialize()
@@ -16,10 +16,11 @@ authDataSource
   })
   .catch((error) => console.log("Error:", error));
 
-const app = express();
-const port = process.env.PORT;
-
+//features
+app.use(helmet());
 app.use(express.json());
+
+//routing
 app.use("/auth", AuthRouter);
 
 app.listen(port, () => {

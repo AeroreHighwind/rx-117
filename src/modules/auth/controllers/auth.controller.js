@@ -1,4 +1,4 @@
-import { AuthService } from "../services/auth.service.js";
+import { AuthService } from "../auth.module.js";
 import { ExpressLogger } from "../../shared/shared.module.js";
 import { body, validationResult } from "express-validator";
 

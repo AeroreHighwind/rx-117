@@ -1,4 +1,4 @@
-import { UserSchema } from "../entity/user.entity.js";
+import { UserSchema } from "../auth.module.js";
 import { authDataSource } from "../../../../data-source.js";
 import { ExpressLogger } from "../../shared/shared.module.js";
 

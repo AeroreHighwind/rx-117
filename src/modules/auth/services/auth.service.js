@@ -1,4 +1,4 @@
-import { UserRepository } from "../repositories/user.repository.js";
+import { UserRepository } from "../auth.module.js";
 import { ExceptionHandler, ExpressLogger } from "../../shared/shared.module.js";
 
 export class AuthService {
