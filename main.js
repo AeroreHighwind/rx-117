@@ -1,9 +1,8 @@
 import express from "express";
 import helmet from "helmet";
 import { AuthRouter } from "./src/modules/auth/auth.module.js";
-
-import { ExpressLogger } from "./src/modules/shared/services/logger.service.js";
 import { authDataSource } from "./data-source.js";
+import { ExpressLogger } from "./src/modules/shared/shared.module.js";
 
 //init
 const app = express();

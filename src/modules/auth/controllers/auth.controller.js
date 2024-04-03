@@ -1,6 +1,5 @@
 import { AuthService } from "../auth.module.js";
 import { ExpressLogger } from "../../shared/shared.module.js";
-import { body, validationResult } from "express-validator";
 
 export class AuthController {
   constructor() {
@@ -10,21 +9,15 @@ export class AuthController {
 
   async login(req, res, next) {
     try {
-      body("username", "no username in body", "ERROR");
-      const result = validationResult(body);
-      if (result.isEmpty()) {
-        const dto = { ...req.body };
-        this.authService.login(dto);
-        return res.send(`Hello, ${req.body.username}!`);
-      }
-
-      res.send({ errors: result.array() });
+      const { username, password } = req.body;
+      res.send("Login successful");
     } catch (error) {
-      res.status(500).end();
+      console.error("Login error:", error);
+      res.status(500).send("Internal server error");
     }
   }
 
-  async signUp(req, res) {
+  async signUp(req, res, next) {
     try {
       const userDto = { ...req.body };
       console.log("CONTROLLER DTO", userDto);
@@ -36,7 +29,7 @@ export class AuthController {
     }
   }
 
-  static async recovery(req, res) {
+  static async recovery(req, res, next) {
     res.send("This is the password recovery");
   }
 }

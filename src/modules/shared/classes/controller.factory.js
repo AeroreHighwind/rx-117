@@ -1,7 +1,7 @@
-import { AuthController } from "../../auth/auth.module";
+import { AuthController } from "../../auth/auth.module.js";
 
 export class ControllerFactory {
-  static create(type) {
+  create(type) {
     switch (type) {
       case "Auth":
         return new AuthController();
