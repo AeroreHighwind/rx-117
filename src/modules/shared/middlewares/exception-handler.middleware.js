@@ -3,7 +3,6 @@ import { ExpressLogger } from "../shared.module.js";
 export class ExceptionHandler {
   static handle(error) {
     // Handling HTTP errors
-    // console.log(error);
     if (error.status) {
       switch (error.status) {
         case 400:
