@@ -16,8 +16,7 @@ export class AuthController {
       const dto = req.body;
       const loginSuccess = await this.authService.login(dto);
       if (loginSuccess) {
-        res.status(200).send("login successful");
-        return; // Return to avoid further execution
+        return res.status(200).send("login successful");
       }
       throw new CustomError("Unauthorized", 401);
     } catch (error) {
@@ -31,13 +30,12 @@ export class AuthController {
       const userDto = { ...req.body };
       const registerSuccess = await this.authService.signUp(userDto);
       if (registerSuccess) {
-        res.status(201).end();
-        return; // Return to avoid further execution
+        return res.status(201).end();
       }
       throw new CustomError("Error", 500);
     } catch (error) {
       ExceptionHandler.handle(error);
-      res.status(error.status).send(error.message);
+      return res.status(error.status).send(error.message);
     }
   }
 

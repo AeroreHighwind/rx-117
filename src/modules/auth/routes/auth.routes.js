@@ -19,8 +19,18 @@ AuthRouter.post(
     }
   }
 );
-AuthRouter.post("/sign-up", (req, res, next) =>
-  authController.signUp(req, res)
+AuthRouter.post(
+  "/sign-up",
+  [ValidatorService.signUpValidationRules],
+  async (req, res, next) => {
+    try {
+      ValidatorService.validate(req, res);
+      await authController.signUp(req, res);
+    } catch (error) {
+      ExpressLogger.log.red(error);
+      res.status(400).json({ message: error.message });
+    }
+  }
 );
 AuthRouter.post("/recovery", (req, res) => authController.recovery(req, res));
 
