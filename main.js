@@ -23,5 +23,9 @@ app.use(express.json());
 app.use("/auth", AuthRouter);
 
 app.listen(port, () => {
-  ExpressLogger.log.yellow(`Server running on port ${port}`);
+  let runtimeMode = "development";
+  if (process.env.NODE_ENV === "production") runtimeMode = "production";
+  ExpressLogger.log.yellow(
+    `Server running on port ${port} in ${runtimeMode} mode`
+  );
 });

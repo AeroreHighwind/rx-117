@@ -2,22 +2,43 @@ import { ExpressLogger } from "../shared.module.js";
 
 export class ExceptionHandler {
   static handle(error) {
-    switch (error.errno) {
-      case 1062:
-        ExpressLogger.log.red("Duplicate entry");
-        break;
-      case 1364:
-        ExpressLogger.log.red(error);
-        break;
-      default:
-        console.log("EXCEPTION HANDLER:", error);
-        break;
+    // Handling HTTP errors
+    // console.log(error);
+    if (error.status) {
+      switch (error.status) {
+        case 400:
+          return this.#logError("Bad Request");
+
+        case 401:
+          return this.#logError("Unauthorized");
+
+        case 403:
+          return this.#logError("Forbidden");
+
+        case 404:
+          return this.#logError("Not Found");
+
+        default:
+          return this.#logError("Internal Server Error");
+      }
     }
 
-    // if (error.errno === 1062) {
-    //   ExpressLogger.log.red("Duplicated DB entry");
-    //   return 1062;
-    // }
-    // console.log(error);
+    // Handling database or other errors
+    if (error.errno) {
+      switch (error.errno) {
+        case 1062:
+          return this.#logError("Duplicate entry");
+
+        case 1364:
+          return this.#logError(error);
+
+        default:
+          return this.#logError("EXCEPTION HANDLER:", error);
+      }
+    }
+  }
+
+  static #logError(error) {
+    return ExpressLogger.log.red(error);
   }
 }

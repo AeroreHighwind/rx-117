@@ -1,5 +1,9 @@
 import { AuthService } from "../auth.module.js";
-import { ExpressLogger } from "../../shared/shared.module.js";
+import {
+  CustomError,
+  ExceptionHandler,
+  ExpressLogger,
+} from "../../shared/shared.module.js";
 
 export class AuthController {
   constructor() {
@@ -9,11 +13,13 @@ export class AuthController {
 
   async login(req, res, next) {
     try {
-      const { username, password } = req.body;
-      res.send("Login successful");
+      const dto = req.body;
+      const successLogin = await this.authService.login(dto);
+      if (successLogin) res.status(200).send("login successful");
+      throw new CustomError("Unauthorized", 401);
     } catch (error) {
-      console.error("Login error:", error);
-      res.status(500).send("Internal server error");
+      ExceptionHandler.handle(error);
+      res.status(error.status).send(error.message);
     }
   }
 
