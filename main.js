@@ -1,5 +1,6 @@
 import express from "express";
 import helmet from "helmet";
+import { expressjwt } from "express-jwt";
 import { AuthRouter } from "./src/modules/auth/auth.module.js";
 import { authDataSource } from "./data-source.js";
 import { ExpressLogger } from "./src/modules/shared/shared.module.js";
@@ -18,7 +19,12 @@ authDataSource
 //features
 app.use(helmet());
 app.use(express.json());
-
+app.use(
+  expressjwt({
+    secret: process.env.JWT_SECRET,
+    algorithms: [process.env.JWT_ALGORITHM],
+  }).unless({ path: ["/auth/login", "/auth/sign-up"] })
+);
 //routing
 app.use("/auth", AuthRouter);
 

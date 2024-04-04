@@ -1,4 +1,5 @@
 import { AuthService } from "../auth.module.js";
+import { expressjwt } from "express-jwt";
 import {
   CustomError,
   ExceptionHandler,
