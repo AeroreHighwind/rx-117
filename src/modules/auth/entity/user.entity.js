@@ -22,7 +22,7 @@ export const UserSchema = new EntitySchema({
     },
     password: {
       type: "varchar",
-      length: 15,
+      length: 60,
     },
     createdAt: {
       type: "timestamp",

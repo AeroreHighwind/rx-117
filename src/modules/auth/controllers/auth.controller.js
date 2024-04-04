@@ -14,8 +14,8 @@ export class AuthController {
   async login(req, res, next) {
     try {
       const dto = req.body;
-      const successLogin = await this.authService.login(dto);
-      if (successLogin) res.status(200).send("login successful");
+      const loginSuccess = await this.authService.login(dto);
+      if (loginSuccess) res.status(200).send("login successful");
       throw new CustomError("Unauthorized", 401);
     } catch (error) {
       ExceptionHandler.handle(error);
@@ -26,16 +26,16 @@ export class AuthController {
   async signUp(req, res, next) {
     try {
       const userDto = { ...req.body };
-      console.log("CONTROLLER DTO", userDto);
-      this.authService.signUp(userDto);
-      res.status(201).end();
+      const registerSuccess = await this.authService.signUp(userDto);
+      if (registerSuccess) res.status(201).end();
+      throw new CustomError("Error", 500);
     } catch (error) {
-      ExpressLogger.log.red(error);
-      res.status(500).end();
+      ExceptionHandler.handle(error);
+      res.status(error.status).send(error.message);
     }
   }
 
-  static async recovery(req, res, next) {
+  async recovery(req, res, next) {
     res.send("This is the password recovery");
   }
 }

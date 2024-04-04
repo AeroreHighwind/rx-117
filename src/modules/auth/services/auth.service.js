@@ -1,5 +1,9 @@
 import { UserRepository } from "../auth.module.js";
-import { ExceptionHandler, ExpressLogger } from "../../shared/shared.module.js";
+import {
+  CustomError,
+  ExceptionHandler,
+  ExpressLogger,
+} from "../../shared/shared.module.js";
 import bcrypt from "bcrypt";
 
 const saltRounds = 12;
@@ -15,22 +19,24 @@ export class AuthService {
     try {
       const { username, password } = dto;
       const dbUser = await this.repository.findOneByUsername(username);
+      if (!dbUser) throw new CustomError("Invalid credentials", 401);
       const validCredentials = await this.#decryptPassword(
         password,
         dbUser.password
       );
-      if (!validCredentials) throw new Error("Invalid credentials");
+      if (!validCredentials) throw new CustomError("Invalid credentials", 401);
       return true;
     } catch (error) {
       return false;
-      this.handler.handle(error);
     }
   }
 
-  async signUp(userDto) {
+  async signUp(dto) {
     try {
-      const newUser = await this.repository.save(userDto);
-      return newUser;
+      const { password, ...rest } = dto;
+      const hashedPassword = await this.#encryptPassword(password);
+      const newUser = { password: hashedPassword, ...rest };
+      return await await this.repository.save(newUser);
     } catch (error) {
       this.handler.handle(error);
     }
