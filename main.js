@@ -1,5 +1,6 @@
 import express from "express";
 import helmet from "helmet";
+import swaggerDocs from "./swagger.js";
 import { expressjwt } from "express-jwt";
 import { AuthRouter } from "./src/modules/auth/auth.module.js";
 import { authDataSource } from "./data-source.js";
@@ -19,18 +20,19 @@ authDataSource
 //features
 app.use(helmet());
 app.use(express.json());
-app.use(
-  expressjwt({
-    secret: process.env.JWT_SECRET,
-    algorithms: [process.env.JWT_ALGORITHM],
-  }).unless({ path: ["/auth/login", "/auth/sign-up", "/auth/recovery"] })
-);
+// app.use(
+//   expressjwt({
+//     secret: process.env.JWT_SECRET,
+//     algorithms: [process.env.JWT_ALGORITHM],
+//   }).unless({ path: ["/auth/login", "/auth/sign-up", "/auth/recovery"] })
+// );
 //routing
 app.use("/auth", AuthRouter);
 
 app.listen(port, () => {
   let runtimeMode = "development";
   if (process.env.NODE_ENV === "production") runtimeMode = "production";
+  swaggerDocs(app, port);
   ExpressLogger.log.yellow(
     `Server running on port ${port} in ${runtimeMode} mode`
   );
