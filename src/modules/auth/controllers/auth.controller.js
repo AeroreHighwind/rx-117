@@ -16,7 +16,10 @@ export class AuthController {
       const dto = req.body;
       const token = await this.authService.login(dto);
       if (!token) throw new CustomError("Unauthorized", 401);
-      return res.status(200).cookie("jwt", token).send("login successful");
+      return res
+        .status(200)
+        .cookie("bearer-token", token)
+        .send("login successful");
     } catch (error) {
       ExceptionHandler.handle(error);
       res.status(error.status).send(error.message);
@@ -28,7 +31,7 @@ export class AuthController {
       const userDto = { ...req.body };
       const registerSuccess = await this.authService.signUp(userDto);
       if (registerSuccess) {
-        return res.status(201).end();
+        return res.status(201).send("register successful");
       }
       throw new CustomError("Error", 500);
     } catch (error) {

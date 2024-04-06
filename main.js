@@ -23,7 +23,7 @@ app.use(
   expressjwt({
     secret: process.env.JWT_SECRET,
     algorithms: [process.env.JWT_ALGORITHM],
-  }).unless({ path: ["/auth/login", "/auth/sign-up", "/auth/recovery"] })
+  }).unless({ path: ["/auth/login", "/auth/sign-up"] })
 );
 //routing
 app.use("/auth", AuthRouter);
