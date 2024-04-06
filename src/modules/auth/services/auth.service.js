@@ -5,6 +5,7 @@ import {
   ExpressLogger,
 } from "../../shared/shared.module.js";
 import bcrypt from "bcrypt";
+import sign from "jsonwebtoken/sign.js";
 
 const saltRounds = 12;
 
@@ -25,9 +26,10 @@ export class AuthService {
         dbUser.password
       );
       if (!validCredentials) throw new CustomError("Invalid credentials", 401);
-      return true;
+      const token = this.generateAccessToken(username);
+      return token;
     } catch (error) {
-      return false;
+      return undefined;
     }
   }
 
@@ -63,5 +65,21 @@ export class AuthService {
         }
       });
     });
+  }
+
+  generateAccessToken(username) {
+    //TODO username role
+    try {
+      const key = process.env.JWT_SECRET;
+      const payload = {
+        username,
+      };
+      const token = sign(JSON.stringify(payload), key);
+      ExpressLogger.log.red(token);
+
+      return token;
+    } catch (error) {
+      console.log(error);
+    }
   }
 }

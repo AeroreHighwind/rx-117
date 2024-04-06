@@ -1,5 +1,4 @@
 import { AuthService } from "../auth.module.js";
-import { expressjwt } from "express-jwt";
 import {
   CustomError,
   ExceptionHandler,
@@ -15,11 +14,9 @@ export class AuthController {
   async login(req, res, next) {
     try {
       const dto = req.body;
-      const loginSuccess = await this.authService.login(dto);
-      if (loginSuccess) {
-        return res.status(200).send("login successful");
-      }
-      throw new CustomError("Unauthorized", 401);
+      const token = await this.authService.login(dto);
+      if (!token) throw new CustomError("Unauthorized", 401);
+      return res.status(200).cookie("jwt", token).send("login successful");
     } catch (error) {
       ExceptionHandler.handle(error);
       res.status(error.status).send(error.message);
