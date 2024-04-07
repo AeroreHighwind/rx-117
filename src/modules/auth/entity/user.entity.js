@@ -1,5 +1,7 @@
+// user.module.js
 import { EntitySchema } from "typeorm";
 import { User } from "../auth.module.js";
+import { UserProfile } from "../../user/user.module.js"; // Adjust the path
 
 export const UserSchema = new EntitySchema({
   name: "User",
@@ -8,7 +10,7 @@ export const UserSchema = new EntitySchema({
   columns: {
     id: {
       primary: true,
-      type: "int",
+      type: "uuid",
       generated: "uuid",
     },
     username: {
@@ -18,7 +20,7 @@ export const UserSchema = new EntitySchema({
     email: {
       type: "varchar",
       unique: true,
-      length: 15,
+      length: 255,
     },
     password: {
       type: "varchar",
@@ -26,7 +28,17 @@ export const UserSchema = new EntitySchema({
     },
     createdAt: {
       type: "timestamp",
-      default: new Date().toISOString().split("T")[0],
+      default: () => "CURRENT_TIMESTAMP",
+    },
+  },
+  relations: {
+    profile: {
+      type: "one-to-one",
+      target: "UserProfile",
+      joinColumn: {
+        name: "userId",
+        referencedColumnName: "id",
+      },
     },
   },
 });
