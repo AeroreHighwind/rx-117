@@ -39,6 +39,7 @@ export const UserSchema = new EntitySchema({
         name: "userId",
         referencedColumnName: "id",
       },
+      cascade: true,
     },
   },
 });
