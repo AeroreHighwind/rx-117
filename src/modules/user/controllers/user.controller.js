@@ -8,7 +8,7 @@ import {
 export class UserController {
   constructor() {
     this.userService = new UserService();
-    ExpressLogger.log.blue("UserService constructed");
+    ExpressLogger.log.blue("UserController constructed");
   }
 
   async getProfile(req, res, next) {

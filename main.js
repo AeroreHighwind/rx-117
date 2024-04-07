@@ -1,37 +1,49 @@
 import express from "express";
 import helmet from "helmet";
+import { dataSource } from "./data-source.js";
 import { expressjwt } from "express-jwt";
 import { AuthRouter } from "./src/modules/auth/auth.module.js";
-import { authDataSource } from "./data-source.js";
+import { UserRouter } from "./src/modules/user/user.module.js";
 import { ExpressLogger } from "./src/modules/shared/shared.module.js";
 
-//init
-const app = express();
-const port = process.env.PORT;
+async function startServer() {
+  try {
+    // Initialize Express app
+    const app = express();
+    const port = process.env.PORT;
 
-authDataSource
-  .initialize()
-  .then((db) => {
+    // Features
+    app.use(helmet());
+    app.use(express.json());
+    app.use(
+      expressjwt({
+        secret: process.env.JWT_SECRET,
+        algorithms: [process.env.JWT_ALGORITHM],
+      }).unless({ path: ["/auth/login", "/auth/sign-up"] })
+    );
+
+    // Database initialization
+    const db = await dataSource.initialize();
     ExpressLogger.log.cyan(`DB initialized: ${db.isInitialized}`);
-  })
-  .catch((error) => console.log("Error:", error));
 
-//features
-app.use(helmet());
-app.use(express.json());
-app.use(
-  expressjwt({
-    secret: process.env.JWT_SECRET,
-    algorithms: [process.env.JWT_ALGORITHM],
-  }).unless({ path: ["/auth/login", "/auth/sign-up"] })
-);
-//routing
-app.use("/auth", AuthRouter);
+    // Routing
+    const authRouter = new AuthRouter().router;
+    const userRouter = new UserRouter().router;
+    app.use("/auth", authRouter);
+    app.use("/user", userRouter);
 
-app.listen(port, () => {
-  let runtimeMode = "development";
-  if (process.env.NODE_ENV === "production") runtimeMode = "production";
-  ExpressLogger.log.yellow(
-    `Server running on port ${port} in ${runtimeMode} mode`
-  );
-});
+    // Start the server
+    app.listen(port, () => {
+      let runtimeMode = "development";
+      if (process.env.NODE_ENV === "production") runtimeMode = "production";
+      ExpressLogger.log.yellow(
+        `Server running on port ${port} in ${runtimeMode} mode`
+      );
+    });
+  } catch (error) {
+    console.error("Error starting server:", error);
+  }
+}
+
+// Start the server
+startServer();

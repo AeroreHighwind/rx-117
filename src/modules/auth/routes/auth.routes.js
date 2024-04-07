@@ -1,37 +1,51 @@
 import express from "express";
-import { AuthController } from "../../auth/auth.module.js";
+import { AuthController } from "../auth.module.js";
 import { ExpressLogger, ValidatorService } from "../../shared/shared.module.js";
 
-export const AuthRouter = express.Router();
+export class AuthRouter {
+  constructor() {
+    this.router = express.Router();
+    this.authController = new AuthController();
 
-const authController = new AuthController();
+    // Define routes
+    this.router.post(
+      "/login",
+      [ValidatorService.loginValidationRules],
+      this.login.bind(this)
+    );
 
-AuthRouter.post(
-  "/login",
-  [ValidatorService.loginValidationRules],
-  async (req, res, next) => {
+    this.router.post(
+      "/sign-up",
+      [ValidatorService.signUpValidationRules],
+      this.signUp.bind(this)
+    );
+
+    this.router.post("/recovery", this.recovery.bind(this));
+
+    ExpressLogger.logRouterEndpoints(this.router);
+  }
+
+  async login(req, res, next) {
     try {
       ValidatorService.validate(req, res);
-      await authController.login(req, res, next);
+      await this.authController.login(req, res, next);
     } catch (error) {
       ExpressLogger.log.red(error);
       res.status(400).json({ message: error.message });
     }
   }
-);
-AuthRouter.post(
-  "/sign-up",
-  [ValidatorService.signUpValidationRules],
-  async (req, res, next) => {
+
+  async signUp(req, res, next) {
     try {
       ValidatorService.validate(req, res);
-      await authController.signUp(req, res);
+      await this.authController.signUp(req, res);
     } catch (error) {
       ExpressLogger.log.red(error);
       res.status(400).json({ message: error.message });
     }
   }
-);
-AuthRouter.post("/recovery", (req, res) => authController.recovery(req, res));
 
-ExpressLogger.logRouterEndpoints(AuthRouter);
+  recovery(req, res) {
+    this.authController.recovery(req, res);
+  }
+}

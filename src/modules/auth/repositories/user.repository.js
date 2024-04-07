@@ -1,10 +1,10 @@
 import { UserSchema } from "../auth.module.js";
-import { authDataSource } from "../../../../data-source.js";
+import { dataSource } from "../../../../data-source.js";
 import { ExpressLogger } from "../../shared/shared.module.js";
 
 export class UserRepository {
   constructor() {
-    this.repository = authDataSource.getRepository(UserSchema);
+    this.repository = dataSource.getRepository(UserSchema);
     ExpressLogger.log.blue("UserRepository constructed");
   }
 
