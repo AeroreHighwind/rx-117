@@ -12,10 +12,9 @@ export class UserService {
     ExpressLogger.log.blue("UserService constructed");
   }
 
-  async getUserProfile(dto) {
+  async getUserProfile(id) {
     try {
-      const { id } = dto;
-      const dbProfile = await this.profileRepository.findOneByUserId(id);
+      const dbProfile = await this.profileRepository.findOne(id);
       if (!dbProfile) throw new CustomError("Profile not found", 404);
       return dbProfile;
     } catch (error) {
@@ -23,13 +22,33 @@ export class UserService {
     }
   }
 
+  async getProfileList() {
+    try {
+      return await this.profileRepository.findAll();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async createUserProfile(userId, dto) {
+    try {
+      const newProfile = { ...dto, userId };
+      return await this.profileRepository.save(
+        // ExceptionHandler.handle(error);
+        newProfile
+      );
+    } catch (error) {
+      // this.handler(error);
+      console.log(error);
+    }
+  }
   async updateUserProfile(userId, dto) {
     try {
       const { id } = dto;
       if (id !== userId) throw new CustomError("Bad request", 400);
       return await await this.profileRepository.save(dto);
     } catch (error) {
-      this.handler.handle(error);
+      console.log(error);
+      // this.handler.handle(error);
     }
   }
 }

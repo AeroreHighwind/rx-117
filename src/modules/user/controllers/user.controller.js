@@ -13,24 +13,53 @@ export class UserController {
 
   async getProfile(req, res, next) {
     try {
-      const dto = req.body;
-      const profile = await this.userService.getProfile(dto);
+      const profileId = req.query.profileId;
+      const profile = await this.userService.getUserProfile(profileId);
       if (!profile) throw new CustomError("Profile not found", 404);
-      return res.body(JSON.stringify(profile)).send("login successful");
+      return res.json(profile);
     } catch (error) {
       ExceptionHandler.handle(error);
       res.status(error.status).send(error.message);
     }
   }
 
+  async getProfileList(req, res, next) {
+    try {
+      //TODO PAGINATION
+      const profileList = await this.userService.getProfileList();
+      if (!profileList) throw new CustomError("Profiles not found", 404);
+      return res.json(profileList).end();
+    } catch (error) {
+      res.status(error.status || 500).send(error.message);
+    }
+  }
+
+  async createProfile(req, res, next) {
+    try {
+      const userId = req.query.userId;
+      console.log(userId);
+      const profileDto = { ...req.body };
+      const isCreated = await this.userService.createUserProfile(
+        userId,
+        profileDto
+      );
+      if (!isCreated) throw new CustomError("Error", 500);
+      return res.status(200).send("profile creation successful");
+    } catch (error) {
+      console.log(error);
+      // ExceptionHandler.handle(error);
+      return res.status(error.status).send(error.message);
+    }
+  }
   async updateProfile(req, res, next) {
     try {
       const profileDto = { ...req.body };
-      const isUpdated = await this.userService.updateProfile(profileDto);
+      const isUpdated = await this.userService.updateUserProfile(profileDto);
       if (!isUpdated) throw new CustomError("Error", 500);
       return res.status(200).send("profile update successful");
     } catch (error) {
-      ExceptionHandler.handle(error);
+      // ExceptionHandler.handle(error);
+      console.log(error);
       return res.status(error.status).send(error.message);
     }
   }

@@ -38,7 +38,7 @@ export class AuthService {
       const { password, ...rest } = dto;
       const hashedPassword = await this.#encryptPassword(password);
       const newUser = { password: hashedPassword, ...rest };
-      return await await this.repository.save(newUser);
+      return await this.repository.save(newUser);
     } catch (error) {
       this.handler.handle(error);
     }
