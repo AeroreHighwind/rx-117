@@ -19,6 +19,7 @@ async function startServer() {
       expressjwt({
         secret: process.env.JWT_SECRET,
         algorithms: [process.env.JWT_ALGORITHM],
+        maxAge: "1h",
       }).unless({ path: ["/auth/login", "/auth/sign-up"] })
     );
 
