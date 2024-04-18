@@ -5,8 +5,7 @@ import {
   ExpressLogger,
 } from "../../shared/shared.module.js";
 import bcrypt from "bcrypt";
-import sign from "jsonwebtoken/sign.js";
-
+import jwt from "jsonwebtoken";
 const saltRounds = 12;
 
 export class AuthService {
@@ -74,8 +73,10 @@ export class AuthService {
       const payload = {
         username,
       };
-      const token = sign(JSON.stringify(payload), key);
-      ExpressLogger.log.red(token);
+      const token = jwt.sign(payload, key, {
+        expiresIn: "1h",
+      });
+      ExpressLogger.log.blue(token);
 
       return token;
     } catch (error) {
