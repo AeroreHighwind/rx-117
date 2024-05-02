@@ -13,8 +13,8 @@ export class UserController {
 
   async getProfile(req, res, next) {
     try {
-      const profileId = req.query.profileId;
-      const profile = await this.userService.getUserProfile(profileId);
+      const { id } = req.params;
+      const profile = await this.userService.getUserProfile(id);
       if (!profile) throw new CustomError("Profile not found", 404);
       return res.json(profile);
     } catch (error) {

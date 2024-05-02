@@ -9,7 +9,7 @@ export class UserRouter {
 
     // Define routes
     this.router.get(
-      "/profile",
+      "/profile/:id",
       // [ValidatorService.loginValidationRules],
       this.getProfile.bind(this)
     );

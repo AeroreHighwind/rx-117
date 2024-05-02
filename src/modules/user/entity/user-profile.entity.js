@@ -10,8 +10,8 @@ export const UserProfileSchema = new EntitySchema({
   columns: {
     id: {
       primary: true,
-      type: "uuid",
-      generated: "uuid",
+      type: "int",
+      generated: "increment",
     },
     username: {
       type: "varchar",
