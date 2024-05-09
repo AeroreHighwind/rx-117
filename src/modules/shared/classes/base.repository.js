@@ -1,18 +1,23 @@
-export class BaseRepository {
-  constructor(model) {
-    this.model = model;
-  }
-  async create(entity) {
-    return await this.model.create(entity);
-  }
-  async get(id) {
-    return await this.model.findById(id);
-  }
-  async update(id) {
-    return await this.model.update(id);
-  }
+import { dataSource } from "../../../../data-source.js";
 
+export class BaseRepository {
+  constructor(entity) {
+    this.repository = dataSource.getRepository(entity);
+  }
+  async create(dto) {
+    return await this.repository.save(dto);
+  }
+  async findOne(id) {
+    return await this.repository.findById(id);
+  }
+  async findAll() {
+    return await this.repository.findAll();
+  }
+  async update(id, dto) {
+    const updatedItem = { ...dto, id };
+    return await this.repository.save(updatedItem);
+  }
   async delete(id) {
-    return await this.model.delete(id);
+    return await this.repository.delete(id);
   }
 }
