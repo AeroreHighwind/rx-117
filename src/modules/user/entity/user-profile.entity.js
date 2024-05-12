@@ -1,51 +1,36 @@
-// user-profile.module.js
-import { EntitySchema } from "typeorm";
-import { User } from "../../auth/auth.module.js"; // Adjust the path
-import { UserProfile } from "../user.module.js";
+// user-profile.model.js
+import { DataTypes } from "sequelize";
+import { User, UserEntity } from "../../auth/auth.module.js";
+import { dataBase } from "../../../../data-source.js";
 
-export const UserProfileSchema = new EntitySchema({
-  name: "UserProfile",
-  tableName: "profiles",
-  target: UserProfile,
-  columns: {
-    id: {
-      primary: true,
-      type: "int",
-      generated: "increment",
-    },
-    username: {
-      type: "varchar",
-      length: 15,
-    },
-    gender: {
-      type: "tinyint",
-    },
-    faction: {
-      type: "varchar",
-      length: 20,
-    },
-    title: {
-      type: "varchar",
-    },
-    img: {
-      type: "blob",
-    },
-    createdAt: {
-      type: "timestamp",
-      default: () => "CURRENT_TIMESTAMP",
-    },
-    userId: {
-      type: "int",
-    },
+export const UserProfileEntity = dataBase.define("profile", {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
   },
-  relations: {
-    user: {
-      type: "one-to-one",
-      target: "User",
-      joinColumn: {
-        name: "userId",
-        referencedColumnName: "id",
-      },
-    },
+  username: {
+    type: DataTypes.STRING(15),
+  },
+  gender: {
+    type: DataTypes.TINYINT,
+  },
+  faction: {
+    type: DataTypes.STRING(20),
+  },
+  title: {
+    type: DataTypes.STRING,
+  },
+  img: {
+    type: DataTypes.BLOB,
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
+  },
+  userId: {
+    type: DataTypes.INTEGER,
   },
 });
+
+UserProfileEntity.belongsTo(UserEntity, { foreignKey: "userId" });

@@ -1,14 +1,12 @@
-import { dataSource } from "../../../../data-source.js";
-
 export class BaseRepository {
   constructor(entity) {
-    this.repository = dataSource.getRepository(entity);
+    this.repository = entity;
   }
   async create(dto) {
-    return await this.repository.save(dto);
+    return await this.repository.create(dto);
   }
   async findOne(id) {
-    return await this.repository.findById(id);
+    return await this.repository.findOne({ where: { id: id } });
   }
   async findAll() {
     return await this.repository.findAll();

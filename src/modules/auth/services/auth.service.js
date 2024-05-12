@@ -28,6 +28,7 @@ export class AuthService {
       const token = this.generateAccessToken(username);
       return token;
     } catch (error) {
+      console.log("AUTH SERVICE LOGIN ERROR", error);
       return undefined;
     }
   }
@@ -37,7 +38,7 @@ export class AuthService {
       const { password, ...rest } = dto;
       const hashedPassword = await this.#encryptPassword(password);
       const newUser = { password: hashedPassword, ...rest };
-      return await this.repository.save(newUser);
+      return await this.repository.create(newUser);
     } catch (error) {
       this.handler.handle(error);
     }

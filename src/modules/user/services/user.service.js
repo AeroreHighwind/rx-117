@@ -35,7 +35,7 @@ export class UserService {
   async createUserProfile(userId, dto) {
     try {
       const newProfile = { ...dto, userId };
-      return await this.profileRepository.save(
+      return await this.profileRepository.create(
         // ExceptionHandler.handle(error);
         newProfile
       );
@@ -48,7 +48,7 @@ export class UserService {
     try {
       const { id } = dto;
       if (id !== userId) throw new CustomError("Bad request", 400);
-      return await await this.profileRepository.save(dto);
+      return await await this.profileRepository.update(dto);
     } catch (error) {
       console.log(error);
       // this.handler.handle(error);

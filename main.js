@@ -1,6 +1,6 @@
 import express from "express";
 import helmet from "helmet";
-import { dataSource } from "./data-source.js";
+import { dataBase } from "./data-source.js";
 import { expressjwt } from "express-jwt";
 import { AuthRouter } from "./src/modules/auth/auth.module.js";
 import { UserRouter } from "./src/modules/user/user.module.js";
@@ -24,8 +24,9 @@ async function startServer() {
     );
 
     // Database initialization
-    const db = await dataSource.initialize();
-    ExpressLogger.log.cyan(`DB initialized: ${db.isInitialized}`);
+    const db = dataBase;
+    // await db.sync({ alter: true });
+    if (db) ExpressLogger.log.cyan(`DB initialized`);
 
     // Routing
     const authRouter = new AuthRouter().router;

@@ -1,9 +1,9 @@
-import { UserProfileSchema } from "../user.module.js";
+import { UserProfileEntity } from "../user.module.js";
 import { BaseRepository, ExpressLogger } from "../../shared/shared.module.js";
 
 export class UserProfileRepository extends BaseRepository {
   constructor() {
-    super(UserProfileSchema);
+    super(UserProfileEntity);
     ExpressLogger.log.blue("UserProfileRepository constructed");
   }
 

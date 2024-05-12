@@ -18,7 +18,7 @@ export class ExceptionHandler {
           return this.#logError("Not Found");
 
         default:
-          return this.#logError("Internal Server Error");
+          return this.#logError("Internal Server Error", error);
       }
     }
 

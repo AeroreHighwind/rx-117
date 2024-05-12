@@ -1,45 +1,27 @@
-// user.module.js
-import { EntitySchema } from "typeorm";
-import { User } from "../auth.module.js";
-import { UserProfile } from "../../user/user.module.js"; // Adjust the path
+import { Sequelize, DataTypes } from "sequelize";
+import { dataBase } from "../../../../data-source.js";
 
-export const UserSchema = new EntitySchema({
-  name: "User",
-  tableName: "users",
-  target: User,
-  columns: {
-    id: {
-      primary: true,
-      type: "int",
-      generated: "increment",
-    },
-    username: {
-      type: "varchar",
-      length: 15,
-    },
-    email: {
-      type: "varchar",
-      unique: true,
-      length: 255,
-    },
-    password: {
-      type: "varchar",
-      length: 60,
-    },
-    createdAt: {
-      type: "timestamp",
-      default: () => "CURRENT_TIMESTAMP",
-    },
+export const UserEntity = dataBase.define("user", {
+  username: {
+    type: DataTypes.STRING,
+    allowNull: false,
   },
-  relations: {
-    profile: {
-      type: "one-to-one",
-      target: "UserProfile",
-      joinColumn: {
-        name: "userId",
-        referencedColumnName: "id",
-      },
-      cascade: true,
-    },
+  password: {
+    type: DataTypes.STRING,
+    allowNull: false,
   },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+  },
+  // profile: {
+  //   type: DataTypes.JSON, // Assuming profile data is stored as JSON
+  // },
 });
+
+// Sync the model with the database
+dataBase.sync({ force: true });
