@@ -1,5 +1,5 @@
-import { Sequelize, DataTypes } from "sequelize";
-import { dataBase } from "../../../../data-source.js";
+import { DataTypes } from "sequelize";
+import { dataBase } from "../../../server/data-source.js";
 
 export const UserEntity = dataBase.define("user", {
   username: {

@@ -2,7 +2,6 @@ import { Sequelize } from "sequelize";
 
 export const dataBase = new Sequelize({
   dialect: "mysql",
-  type: "mysql",
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
   database: process.env.DB_NAME,

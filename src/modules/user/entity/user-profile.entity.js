@@ -1,7 +1,7 @@
 // user-profile.model.js
 import { DataTypes } from "sequelize";
-import { User, UserEntity } from "../../auth/auth.module.js";
-import { dataBase } from "../../../../data-source.js";
+import { UserEntity } from "../../auth/auth.module.js";
+import { dataBase } from "../../../server/data-source.js";
 
 export const UserProfileEntity = dataBase.define("profile", {
   id: {
