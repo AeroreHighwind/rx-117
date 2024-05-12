@@ -1,27 +1,35 @@
-import { DataTypes } from "sequelize";
-import { dataBase } from "../../../server/data-source.js";
+import { DataTypes, Model } from "sequelize";
+import { dataBase } from "../../../server/data-source.js"; // Adjust the path
 
-export const UserEntity = dataBase.define("user", {
-  username: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  password: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  email: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
-  updatedAt: {
-    type: DataTypes.DATE,
-  },
-  // profile: {
-  //   type: DataTypes.JSON, // Assuming profile data is stored as JSON
-  // },
-});
+export class UserEntity extends Model {}
 
-// Sync the model with the database
-dataBase.sync({ force: true });
+UserEntity.init(
+  {
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+    },
+    // profile: {
+    //   type: DataTypes.JSON, // Assuming profile data is stored as JSON
+    // },
+  },
+  {
+    sequelize: dataBase,
+    modelName: "user",
+    paranoid: true,
+  }
+);
+
+export default UserEntity;

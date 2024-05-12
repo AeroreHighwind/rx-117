@@ -16,6 +16,6 @@ export class BaseRepository {
     return await this.repository.save(updatedItem);
   }
   async delete(id) {
-    return await this.repository.delete(id);
+    return await this.repository.destroy(id);
   }
 }
