@@ -12,8 +12,12 @@ export class BaseRepository {
     return await this.repository.findAll();
   }
   async update(id, dto) {
-    const updatedItem = { ...dto, id };
-    return await this.repository.save(updatedItem);
+    return await this.repository.update(
+      { ...dto },
+      {
+        where: { id },
+      }
+    );
   }
   async delete(id) {
     return await this.repository.destroy(id);

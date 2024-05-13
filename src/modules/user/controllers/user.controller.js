@@ -53,8 +53,13 @@ export class UserController {
   }
   async updateProfile(req, res, next) {
     try {
+      const id = req.params.id;
       const profileDto = { ...req.body };
-      const isUpdated = await this.userService.updateUserProfile(profileDto);
+      const isUpdated = await this.userService.updateUserProfile(
+        id,
+        profileDto
+      );
+      console.log(isUpdated);
       if (!isUpdated) throw new CustomError("Error", 500);
       return res.status(200).send("profile update successful");
     } catch (error) {

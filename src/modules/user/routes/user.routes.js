@@ -26,8 +26,8 @@ export class UserRouter {
       this.createProfile.bind(this)
     );
 
-    this.router.put(
-      "/profile",
+    this.router.patch(
+      "/profile/:id",
       // [ValidatorService.signUpValidationRules],
       this.updateProfile.bind(this)
     );
