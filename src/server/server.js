@@ -25,7 +25,7 @@ export async function startServer() {
 
     // Database initialization
     const db = dataBase;
-    // await db.sync({ alter: true });
+    await db.sync({ alter: true });
     if (db) ExpressLogger.log.cyan(`DB initialized`);
 
     // Routing

@@ -13,14 +13,11 @@ export class UserService {
   }
 
   async getUserProfile(id) {
-    console.log("GET USER PROFILE BEFORE TRY");
     try {
       const dbProfile = await this.profileRepository.findOne(id);
-      console.log("GET USER PROFILE", id, dbProfile);
       if (!dbProfile) throw new CustomError("Profile not found", 404);
       return dbProfile;
     } catch (error) {
-      console.log("ERROR IN GE PROFILE", error);
       return undefined;
     }
   }

@@ -31,5 +31,3 @@ UserEntity.init(
     paranoid: true,
   }
 );
-
-export default UserEntity;
